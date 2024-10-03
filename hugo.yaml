@@ -1,4 +1,4 @@
-baseURL: https://example.org/
+baseURL: "https://seba-quintana.github.io/ML-Portfolio/"
 languageCode: en-us
 title: ML Portfolio
 theme: hugo-profile
