@@ -1,7 +1,7 @@
 +++
 title = 'Recomendaciones de juegos'
 date = 2024-10-02T01:37:27-03:00
-draft = true
+draft = false
 +++
 
 <img src="https://sm.ign.com/ign_es/tag/s/steam/steam_rbez.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
