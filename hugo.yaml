@@ -50,7 +50,7 @@ Menus:
 params:
   title: "ML Portfolio"
   description: ML Portfolio
-  # staticPath: ""  # The path to serve the static files from
+  staticPath: "https://seba-quintana.github.io/ML-Portfolio/"
   favicon: "/fav.png"
 
   # Whether to serve bootstrap css and js files from CDN or not. Can be set to true, "css" or "js" to choose between
