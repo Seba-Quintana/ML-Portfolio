@@ -90,6 +90,8 @@ full_data_metadata.to_csv('steam_data.csv', index=False)
 print(full_data_metadata.head())
 ```
 
+(tambien es posible mergear los CSVs desde RapidMiner, pero consume una enorme cantidad de recursos, y de faltar no permite continuar con la ejecución del bloque)
+
 El problema de este approach es que se genera un CSV con una cantidad de datos tan grande que RapidMiner, Excel, e incluso a editores de texto les cuesta incluso leerlo. Por lo tanto, se debe encontrar una forma de achicar los CSVs previo al mergeo.
 
 ### Segundo approach
