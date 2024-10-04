@@ -478,6 +478,17 @@ El bloque de feature selection acepta pesos de los atributos, por lo que se aña
 <p>Para este caso en particular, se debe usar un modelo que permita regresión, por lo que algunos candidatos son linear regression o desicion trees. En este caso en concreto, utilizar árboles de desición puede ser una buena idea, ya que hay muchas columnas binarias debido al One-Hot Encoding, y puede ser beneficioso aprovecharse de esto (por ejemplo, el árbol puede fijarse si la laptop es Apple o no, y según el resultado se fija si tiene Intel i5 o no, etc.).</p>
 <p>Por como se realizó la preparación de los datos, es necesario normalizar. Un ejemplo de esto es el almacenamiento, que al ser convertido a MB, los valores quedaron enormemente más grandes que el resto de los valores del dataset. Esto puede causarle problemas al algoritmo, por lo que se agregó un bloque de normalización previo al modelo.</p>
 <h3 id="resultados">Resultados</h3>
+<p>Proceso en RapidMiner:</p>
+<img src="../../images/Process1_1.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/Process1_2.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/Process1_3.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Vista de resultados obtenidos:
+<img src="../../images/Results.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+A primera vista los resultados podrían ser válidos pero al ver los resultados de performance:
+<img src="../../images/Errors.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Se puede ver que tiene mucho margen de error, lo cual no es deseable.
+<img src="../../images/Weights.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Aquí se puede ver cuales fueron las columnas removidas por el algoritmo genético. Se puede ver que dejó fuera algunos atributos que a primera vista podrían ser interesantes, como Apple, cuyas laptops suelen ser de mayor precio que otras marcas. Habría que analizar que tanto afecta esto al valor final.
 <p>Los resultados hasta ahora no son los ideales, dado que el error que tiene es demasiado grande como para realizar una predicción acertada. Es necesario seguir evaluando los resultados que va generando el algoritmo para ir mejorando cada vez más sus predicciones, hasta llegar a un resultado que se considere aceptable para el caso de uso que se le quiera dar.</p>
 <h4 id="bibliografía">Bibliografía</h4>
 <ul>

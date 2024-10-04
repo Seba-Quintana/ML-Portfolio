@@ -219,6 +219,26 @@ Por como se realizó la preparación de los datos, es necesario normalizar. Un e
 
 ### Resultados
 
+Proceso en RapidMiner:
+
+
+<img src="../../images/Process1_1.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/Process1_2.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/Process1_3.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Vista de resultados obtenidos:
+
+
+<img src="../../images/Results.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+A primera vista los resultados podrían ser válidos pero al ver los resultados de performance:
+
+
+<img src="../../images/Errors.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Se puede ver que tiene mucho margen de error, lo cual no es deseable.
+
+
+<img src="../../images/Weights.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Aquí se puede ver cuales fueron las columnas removidas por el algoritmo genético. Se puede ver que dejó fuera algunos atributos que a primera vista podrían ser interesantes, como Apple, cuyas laptops suelen ser de mayor precio que otras marcas. Habría que analizar que tanto afecta esto al valor final.
+
 Los resultados hasta ahora no son los ideales, dado que el error que tiene es demasiado grande como para realizar una predicción acertada. Es necesario seguir evaluando los resultados que va generando el algoritmo para ir mejorando cada vez más sus predicciones, hasta llegar a un resultado que se considere aceptable para el caso de uso que se le quiera dar.
 
 #### Bibliografía
