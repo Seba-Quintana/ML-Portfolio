@@ -31,7 +31,8 @@
 <meta property="og:url" content="https://seba-quintana.github.io/ML-Portfolio/blogs/laptops/">
   <meta property="og:site_name" content="ML Portfolio">
   <meta property="og:title" content="Precios de laptops">
-  <meta property="og:description" content="ML Portfolio">
+  <meta property="og:description" content="El propósito de este post es realizar un proyecto que demuestre de comienzo a fin un proceso de Machine Learning, el cual permitirá realizar tareas de predicción sobre un campo en concreto. En este caso se buscará predecir el precio que tendrá una laptop, basándose en las distintas características de la misma.
+Preparacion de datos El primer paso en un proceso de Machine Learning siempre es conseguir los datos. Para esto se puede utilizar un repositorio como UCI o Kaggle para extraer los mismos, los cuales suelen estar en formato CSV (aunque no necesariamente). Para este caso en particular existen muchos datasets que pueden ser útiles, de los cuales se ha elegido el de laptop_prices. El mismo contiene un CSV con los siguientes campos:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blogs">
@@ -41,7 +42,8 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Precios de laptops">
-  <meta name="twitter:description" content="ML Portfolio">
+  <meta name="twitter:description" content="El propósito de este post es realizar un proyecto que demuestre de comienzo a fin un proceso de Machine Learning, el cual permitirá realizar tareas de predicción sobre un campo en concreto. En este caso se buscará predecir el precio que tendrá una laptop, basándose en las distintas características de la misma.
+Preparacion de datos El primer paso en un proceso de Machine Learning siempre es conseguir los datos. Para esto se puede utilizar un repositorio como UCI o Kaggle para extraer los mismos, los cuales suelen estar en formato CSV (aunque no necesariamente). Para este caso en particular existen muchos datasets que pueden ser útiles, de los cuales se ha elegido el de laptop_prices. El mismo contiene un CSV con los siguientes campos:">
 
 
 <link rel="stylesheet" href="https://seba-quintana.github.io/ML-Portfolio//bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="https://seba-quintana.github.io/ML-Portfolio//css/header.css" media="all">
@@ -287,7 +289,203 @@ Precios de laptops | ML Portfolio
           </div>
           
           <article class="page-content  p-2">
-          
+          <p>El propósito de este post es realizar un proyecto que demuestre de comienzo a fin un proceso de Machine Learning, el cual permitirá realizar tareas de predicción sobre un campo en concreto. En este caso se buscará predecir el precio que tendrá una laptop, basándose en las distintas características de la misma.</p>
+<h3 id="preparacion-de-datos">Preparacion de datos</h3>
+<p>El primer paso en un proceso de Machine Learning siempre es conseguir los datos. Para esto se puede utilizar un repositorio como UCI o Kaggle para extraer los mismos, los cuales suelen estar en formato CSV (aunque no necesariamente). Para este caso en particular existen muchos datasets que pueden ser útiles, de los cuales se ha elegido el de <em><a href="https://www.kaggle.com/datasets/muhammetvarl/laptop-price">laptop_prices</a></em>. El mismo contiene un CSV con los siguientes campos:</p>
+<ul>
+<li><code>Company</code> - String - Laptop Manufacturer</li>
+<li><code>Product</code> - String - Brand and Model</li>
+<li><code>TypeName</code> - String - Type (Notebook, Ultrabook, Gaming, etc.)</li>
+<li><code>Inches</code> - Numeric - Screen Size</li>
+<li><code>ScreenResolution</code> - String - Screen Resolution</li>
+<li><code>Cpu</code> - String - Central Processing Unit (CPU)</li>
+<li><code>Ram</code> - String - Laptop RAM</li>
+<li><code>Memory</code> - String - Hard Disk / SSD Memory</li>
+<li><code>GPU</code> - String - Graphics Processing Units (GPU)</li>
+<li><code>OpSys</code> - String - Operating System</li>
+<li><code>Weight</code> - String - Laptop Weight</li>
+<li><code>Price_euros</code> - Numeric - Price (Euro)
+(Campos directamente extraídos de la documentación del dataset)</li>
+</ul>
+<p>De esta información, lo que interesa predecir, la variable objetivo, es <code>Price_euros</code>. Por lo tanto, al ser una variable numérica, implica que se tendrá que utilizar algún modelo de regresion.</p>
+<h4 id="feature-selection">Feature selection</h4>
+<p>Previo al análisis de los datos, se puede ver si existe alguna columna que pueda ser removida del dataset, principalmente columnas que, o no aporten para predecir la variable objetivo, o que tengan algún problema por el que no pueda ser usada. En este caso, se puede ver a simple vista que el nombre del modelo (<code>Product</code>) de la laptop no resulta útil, dado que lo más importante para predecir el precio son los componentes de la laptop y la marca, los cuales ya existen en el dataset. El modelo en particular no suele añadir una gran diferencia en el precio por si mismo.</p>
+<p>Otro ejemplo de columna que se puede remover es la de <code>TypeName</code>. A simple vista uno podría pensar que esta columna es importante, ya que una computadora para gaming será más cara que una simple Notebook, pero en realidad si la computadora para gaming es más cara es por los componentes, los cuales ya están siendo considerados. Por lo tanto, se puede remover la columna, ya que existe una correlación entre dichas columnas.</p>
+<h3 id="análisis-de-datos">Análisis de datos</h3>
+<p>Para comenzar a analizar los datos, es recomendable ver si el formato de los mismos es correcto. Por ejemplo, en este caso el peso (<code>Weight</code>) esta en kilogramos, teniendo filas con el formato <peso>kg, y es considerado por RapidMiner como una variable categórica, cuando en verdad podría ser una variable numérica. El problema de esto es que se genera una gran cantidad de clases diferentes, lo que puede complicar a la hora de encontrar patrones, ya que para el modelo todas las clases son distintas. Lo mismo sucede con la <code>RAM</code> (aunque no tiene tantas clases).</p>
+<p>Otro problema (e incluso más importante), es que si el modelo solo acepta valores numéricos entonces no podremos ingresarle dichas clases. Por lo tanto (y de poderse) podría ser conveniente convertir todas las clases a valores númericos.</p>
+<p>Por otro lado la <code>CPU</code> es un dato categórico, que es de vital importancia para predecir el precio de una laptop. El problema de la <code>CPU</code> es que su nombre varia mucho por los distintos modelos, sus velocidades, generaciones, etc., por lo que se debe modificar para que el modelo provea un mejor resultado. Hay muchas técnicas que se pueden aplicar en este tipo de casos, como por ejemplo la agrupación de categorías o One-Hot Encoding. En este caso se utilizará One-Hot Encoding, el cual implica separar en distintas columnas las distintas clases presentes, y que cada una posea un valor binario. Por ejemplo, si solo hay procesadores Intel y AMD, existirán dos columnas, y si una laptop tiene procesador Intel entonces tendrá un 1 en Intel y un 0 en AMD. Como las <code>CPU</code> contienen no solo la marca, si no también el modelo y la velocidad, se pueden separar también en distintas columnas utilizando la misma técnica. Esto quedaría como una columna llamada <code>CPU</code>, otra <code>CPU_Freq</code>, y otra <code>CPU_Gen</code>. Con este cambio, <code>CPU</code> ahora tendrá Intel o AMD en lugar de Intel Core i5 7500U 2.1GHz, lo que es una mejora, pero se puede volver a realizar One-Hot Encoding, esta vez con las marcas, para así poder tener valores numéricos. Esto resulta en una columna Intel, otra columna AMD, etc.
+Para las generaciones se pueden agrupar en grupos grandes, como por ejemplo i3, i5, i7, A9, Ryzen, y otros, y aunque no se contemplan todos los casos en detalle, si se toman en cuenta los modelos más usados.</p>
+<p>En el caso de la marca, también se realizara One-Hot Encoding. Otra opción podría ser pasar las distintas clases a números, pero esto implicaría darles un orden a las clases, y al no tener un orden inherente, el modelo puede llegar a pensar que hay una relación según el orden de las clases cuando en realidad no la hay (por ejemplo, podría pensar que Google es más parecido a Apple que a HP solamente porque los números de Google y Apple están más cerca entre ellos que de HP, cuando en realidad no es así).</p>
+<p>Lo mismo se puede realizar con el sistema operativo.</p>
+<p>Para la <code>ScreenResolution</code> se puede tomar el tamaño de la pantalla, y quedarse con el ancho y el alto. Luego de analizar la columna, el otro dato interesante que tiene es si es IPS o no (se puede sacar con One-Hot Encoding). No existen laptops TN, VA, u OLED en el dataset, y si es Full HD, 4k, etc. se puede sacar de la resolución de la pantalla.</p>
+<p>Con respecto a la <code>GPU</code>, al tener muchas clases muy utilizadas, se puede filtrar en excel las que se repiten más de una cierta cantidad de veces, y únicamente tomar esas. Notar que si se utiliza demasiado One-Hot Encoding puede resultar en una matriz muy esparsa, lo que dependiendo del modelo puede empeorar su performance.</p>
+<p>Se puede seguir este proceso hasta conseguir que todos los predictores sean valores numéricos que el modelo pueda utilizar.</p>
+<p>El código utilizado para estos ajustes es el siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Read the file</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;./laptop_price.csv&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ISO-8859-1&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Manual feature selection</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;laptop_ID&#39;</span>, <span style="color:#e6db74">&#39;Product&#39;</span>, <span style="color:#e6db74">&#39;TypeName&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># One-Hot encoding with companies</span>
+</span></span><span style="display:flex;"><span>Company_dummies <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>get_dummies(df[<span style="color:#e6db74">&#34;Company&#34;</span>])<span style="color:#f92672">.</span>astype(int)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([df, Company_dummies], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Company&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Grab panel type and screen resolution</span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;first_word&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;ScreenResolution&#34;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>split()<span style="color:#f92672">.</span>str[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;last_word&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;ScreenResolution&#34;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>split()<span style="color:#f92672">.</span>str[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Function to parse the resolution and determine if it&#39;s IPS or Touchscreen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parse_resolution</span>(row):
+</span></span><span style="display:flex;"><span>    resolution <span style="color:#f92672">=</span> row[<span style="color:#e6db74">&#39;last_word&#39;</span>]
+</span></span><span style="display:flex;"><span>    is_ips <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> row[<span style="color:#e6db74">&#39;first_word&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;IPS&#39;</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        width, height <span style="color:#f92672">=</span> map(int, resolution<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;x&#39;</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> pd<span style="color:#f92672">.</span>Series([width, height, is_ips])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Handle cases where resolution parsing fails</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> pd<span style="color:#f92672">.</span>Series([<span style="color:#66d9ef">None</span>, <span style="color:#66d9ef">None</span>, is_ips])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">has_touchscreen</span>(description):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;Touchscreen&#39;</span> <span style="color:#f92672">in</span> description <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create the new feature</span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;Touchscreen&#39;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#39;ScreenResolution&#39;</span>]<span style="color:#f92672">.</span>apply(has_touchscreen)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Apply resolution to df</span>
+</span></span><span style="display:flex;"><span>df[[<span style="color:#e6db74">&#39;Width&#39;</span>, <span style="color:#e6db74">&#39;Height&#39;</span>, <span style="color:#e6db74">&#39;IPS&#39;</span>]] <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>apply(parse_resolution, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;first_word&#39;</span>, <span style="color:#e6db74">&#39;last_word&#39;</span>, <span style="color:#e6db74">&#39;ScreenResolution&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Parse CPU</span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;CPU_Brand&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;Cpu&#34;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>split()<span style="color:#f92672">.</span>str[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># One-Hot Encoding with CPU Brand</span>
+</span></span><span style="display:flex;"><span>cpu_dummies <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>get_dummies(df[<span style="color:#e6db74">&#34;CPU_Brand&#34;</span>], prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;CPU&#39;</span>)<span style="color:#f92672">.</span>astype(int)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([df, cpu_dummies], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;CPU_Freq&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;Cpu&#34;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>split()<span style="color:#f92672">.</span>str[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;CPU_Freq&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;CPU_Freq&#34;</span>]<span style="color:#f92672">.</span>str[:<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>astype(float)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;CPU_Model&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;Cpu&#34;</span>]<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^\w+\s+&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, regex<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\s+\d+GHz$&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, regex<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)<span style="color:#f92672">.</span>str<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Group by Brand and Model Family</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">group_cpu_model</span>(model):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;i3&#39;</span> <span style="color:#f92672">in</span> model:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Intel_i3&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;i5&#39;</span> <span style="color:#f92672">in</span> model:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Intel_i5&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;i7&#39;</span> <span style="color:#f92672">in</span> model:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Intel_i7&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;A9-Series&#39;</span> <span style="color:#f92672">in</span> model:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;AMD_A9&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;Ryzen&#39;</span> <span style="color:#f92672">in</span> model:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;AMD_Ryzen&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Other&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;CPU_Gen&#39;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#39;CPU_Model&#39;</span>]<span style="color:#f92672">.</span>apply(group_cpu_model)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># One-Hot Encoding with CPU_Gen</span>
+</span></span><span style="display:flex;"><span>gen_dummies <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>get_dummies(df[<span style="color:#e6db74">&#34;CPU_Gen&#34;</span>])<span style="color:#f92672">.</span>astype(int)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([df, gen_dummies], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Cpu&#39;</span>, <span style="color:#e6db74">&#39;CPU_Model&#39;</span>, <span style="color:#e6db74">&#39;CPU_Gen&#39;</span>, <span style="color:#e6db74">&#39;CPU_Brand&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Remove GB from RAM and convert to number</span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;RAM&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;Ram&#34;</span>]<span style="color:#f92672">.</span>str[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>astype(int)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Ram&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Function to process storage and separate SSD, HDD, and Flash</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">process_storage</span>(storage):
+</span></span><span style="display:flex;"><span>    total_ssd_mb <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    total_hdd_mb <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    total_flash_mb <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Split by &#39;+&#39; for combined storage</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> part <span style="color:#f92672">in</span> storage<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;+&#39;</span>):
+</span></span><span style="display:flex;"><span>        part <span style="color:#f92672">=</span> part<span style="color:#f92672">.</span>strip()  <span style="color:#75715e"># Remove extra spaces</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Check for TB, GB, or MB</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;TB&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>            capacity <span style="color:#f92672">=</span> int(float(part<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;TB&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split()[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>)  <span style="color:#75715e"># Convert TB to MB</span>
+</span></span><span style="display:flex;"><span>            total_hdd_mb <span style="color:#f92672">+=</span> capacity  <span style="color:#75715e"># Assuming TB is HDD by default</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;GB&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Extract numeric part and convert</span>
+</span></span><span style="display:flex;"><span>            capacity <span style="color:#f92672">=</span> int(float(part<span style="color:#f92672">.</span>split()[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;GB&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>strip()))  <span style="color:#75715e"># Extract numeric part</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;SSD&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>                total_ssd_mb <span style="color:#f92672">+=</span> capacity <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>  <span style="color:#75715e"># Convert GB to MB</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;HDD&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>                total_hdd_mb <span style="color:#f92672">+=</span> capacity <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>  <span style="color:#75715e"># Convert GB to MB</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;Flash&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>                total_flash_mb <span style="color:#f92672">+=</span> capacity <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>  <span style="color:#75715e"># Convert GB to MB</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;MB&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Extract numeric part and convert</span>
+</span></span><span style="display:flex;"><span>            capacity <span style="color:#f92672">=</span> int(float(part<span style="color:#f92672">.</span>split()[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;MB&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>strip()))  <span style="color:#75715e"># Extract numeric part</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;SSD&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>                total_ssd_mb <span style="color:#f92672">+=</span> capacity  <span style="color:#75715e"># Already in MB</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;HDD&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>                total_hdd_mb <span style="color:#f92672">+=</span> capacity  <span style="color:#75715e"># Already in MB</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;Flash&#39;</span> <span style="color:#f92672">in</span> part:
+</span></span><span style="display:flex;"><span>                total_flash_mb <span style="color:#f92672">+=</span> capacity  <span style="color:#75715e"># Already in MB</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> total_ssd_mb, total_hdd_mb, total_flash_mb
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Apply the function to the Storage column</span>
+</span></span><span style="display:flex;"><span>df[[<span style="color:#e6db74">&#39;Storage_SSD_MB&#39;</span>, <span style="color:#e6db74">&#39;Storage_HDD_MB&#39;</span>, <span style="color:#e6db74">&#39;Storage_Flash_MB&#39;</span>]] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#39;Memory&#39;</span>]<span style="color:#f92672">.</span>apply(process_storage)<span style="color:#f92672">.</span>apply(pd<span style="color:#f92672">.</span>Series)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Memory&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># GPU</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">group_gpu</span>(gpu_name):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;Intel&#34;</span> <span style="color:#f92672">in</span> gpu_name:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Intel&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#34;Nvidia GeForce GTX&#34;</span> <span style="color:#f92672">in</span> gpu_name:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Nvidia GTX&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#34;Nvidia&#34;</span> <span style="color:#f92672">in</span> gpu_name:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Nvidia&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#34;AMD&#34;</span> <span style="color:#f92672">in</span> gpu_name:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;AMD Radeon&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Other&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;GPU_Group&#39;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#39;Gpu&#39;</span>]<span style="color:#f92672">.</span>apply(group_gpu)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># One-hot encoding with gpu</span>
+</span></span><span style="display:flex;"><span>gpu_dummies <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>get_dummies(df[<span style="color:#e6db74">&#39;GPU_Group&#39;</span>], prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;GPU&#39;</span>)<span style="color:#f92672">.</span>astype(int)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([df, gpu_dummies], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Gpu&#39;</span>, <span style="color:#e6db74">&#39;GPU_Group&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># One-Hot Encoding with OS</span>
+</span></span><span style="display:flex;"><span>os_dummies <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>get_dummies(df[<span style="color:#e6db74">&#34;OpSys&#34;</span>])<span style="color:#f92672">.</span>astype(int)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([df, os_dummies], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;OpSys&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Weight</span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#34;Weight&#34;</span>] <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;Weight&#34;</span>]<span style="color:#f92672">.</span>str[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>astype(float)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(df<span style="color:#f92672">.</span>columns)
+</span></span><span style="display:flex;"><span>print(df)
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;cleaned_laptops.csv&#39;</span>, index<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><h4 id="outlier-detection">Outlier detection</h4>
+<p>Una vez se encuentra la variable objetivo, se puede observar si existe algún outlier en los datos. Al ser pocos datos, se pueden analizar a simple vista, aunque luego se podrían utilizar tanto Excel como RapidMiner para una detección de outliers automatizada, que podrá eliminar algún outlier que no se vea a simple vista. En este caso en particular no parece haber ningun dato que sobresalga.</p>
+<h3 id="generación-del-proceso">Generación del proceso</h3>
+<p>El primer paso dentro del proceso de RapidMiner es el de importar los datos. Una vez importados se le asigna a la feature <code>price_euros</code> como variable objetivo, y se envía el dataset a un bloque de feature selection. Esto es porque, a pesar de que manualmente fueron eliminados algunas columnas, utilizar la técnica de One-Hot Encoding generó muchas otras, por lo que se debe de evaluar cuáles son las más importantes para mantener en el proceso. Hay distintas formas de realizar feature selection, en este caso fueron utilizados algoritmos genéticos mediante el bloque <code>Optimize selection (evolutionary)</code>. Dentro de este bloque se realizó un cross-validation para separar el dataset en una parte de testing y otra de training, y adentro del mismo se aplicó el modelo.
+El bloque de feature selection acepta pesos de los atributos, por lo que se añadió también un bloque de pesos por correlación, para que sepa cuales son los valores que más están relacionados con el precio de las laptops. Esto le permite al algoritmo genético saber que, por ejemplo, la RAM es extremadamente importante a la hora de determinar el precio, pero quizas algún otro elemento no lo sea tanto.</p>
+<p>Este proceso de feature selection nos permite reducir significativamente la cantidad de predictores que existen en el dataset actual, pasando de unas 54 columnas a unas 34, eliminando aproximadamente unas 20 columnas que no aportan (o incluso aportan ruido) al modelo.</p>
+<p>Para este caso en particular, se debe usar un modelo que permita regresión, por lo que algunos candidatos son linear regression o desicion trees. En este caso en concreto, utilizar árboles de desición puede ser una buena idea, ya que hay muchas columnas binarias debido al One-Hot Encoding, y puede ser beneficioso aprovecharse de esto (por ejemplo, el árbol puede fijarse si la laptop es Apple o no, y según el resultado se fija si tiene Intel i5 o no, etc.).</p>
+<p>Por como se realizó la preparación de los datos, es necesario normalizar. Un ejemplo de esto es el almacenamiento, que al ser convertido a MB, los valores quedaron enormemente más grandes que el resto de los valores del dataset. Esto puede causarle problemas al algoritmo, por lo que se agregó un bloque de normalización previo al modelo.</p>
+<h3 id="resultados">Resultados</h3>
+<p>Los resultados hasta ahora no son los ideales, dado que el error que tiene es demasiado grande como para realizar una predicción acertada. Es necesario seguir evaluando los resultados que va generando el algoritmo para ir mejorando cada vez más sus predicciones, hasta llegar a un resultado que se considere aceptable para el caso de uso que se le quiera dar.</p>
+<h4 id="bibliografía">Bibliografía</h4>
+<ul>
+<li><a href="https://www.kaggle.com/datasets/muhammetvarl/laptop-price">Dataset</a></li>
+<li><a href="https://medium.com/@aniketjayant953/forecasting-laptop-costs-a-machine-learning-approach-3dbcf9bbf5c6">Otros estudios del dataset</a></li>
+<li><a href="https://youtu.be/A1eU51jPpXQ">Otros estudios del dataset</a></li>
+</ul>
+
           </article>
         </div>
       </div>
@@ -299,7 +497,18 @@ Precios de laptops | ML Portfolio
                 Table Of Contents
               </h5>
               <div class="toc-content">
-                <nav id="TableOfContents"></nav>
+                <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#preparacion-de-datos">Preparacion de datos</a></li>
+        <li><a href="#análisis-de-datos">Análisis de datos</a></li>
+        <li><a href="#generación-del-proceso">Generación del proceso</a></li>
+        <li><a href="#resultados">Resultados</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
               </div>
           </aside>
           
@@ -413,7 +622,7 @@ Precios de laptops | ML Portfolio
                         <p><img src="https://sm.ign.com/ign_es/tag/s/steam/steam_rbez.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 <h3 id="preparacion-de-datos">Preparacion de datos</h3>
 <p>La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información.
-Para esto se eligió el dataset de <a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a> (plataforma de distribución digital de videojuegos), el cual cuenta …</p></p>
+Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a></em> (plataforma de distribución digital de videojuegos), el cual cuenta …</p></p>
                     </div>
                 </div>
                 <div class="mt-auto card-footer">
@@ -427,11 +636,30 @@ Para esto se eligió el dataset de <a href="https://www.kaggle.com/datasets/anto
             <div class="card h-100">
                 
                 <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/ML-Portfolio/blogs/landmines/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="¿Es una mina?">¿Es una mina?</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p><h3 id="modelos-de-clasificación">Modelos de clasificación</h3>
+<p>La idea de este post es intentar crear un modelo de Machine Learning que permita predecir si el resultado de un sonar es una roca o una mina. Este modelo es inherentemente de clasificación, ya que la variable objetivo será el atributo que determine si es una mina o no</p></p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">Oct 1, 2024</span>
+                    <a href="/ML-Portfolio/blogs/landmines/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
                     <a href="/ML-Portfolio/blogs/laptops/" class="primary-font card-title">
                         <h5 class="card-title bg-transparent" title="Precios de laptops">Precios de laptops</h5>
                     </a>
                     <div class="card-text secondary-font">
-                        <p></p>
+                        <p><p>El propósito de este post es realizar un proyecto que demuestre de comienzo a fin un proceso de Machine Learning, el cual permitirá realizar tareas de predicción sobre un campo en concreto. En este caso se buscará predecir el precio que tendrá una laptop, basándose en las distintas características …</p></p>
                     </div>
                 </div>
                 <div class="mt-auto card-footer">
