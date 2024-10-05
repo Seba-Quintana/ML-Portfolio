@@ -4,6 +4,8 @@ date = 2024-10-01T02:43:45-03:00
 draft = false
 +++
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/9/90/ThinkPad_X220.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+
 El propósito de este post es realizar un proyecto que demuestre de comienzo a fin un proceso de Machine Learning, el cual permitirá realizar tareas de predicción sobre un campo en concreto. En este caso se buscará predecir el precio que tendrá una laptop, basándose en las distintas características de la misma.
 
 ### Preparacion de datos
@@ -233,13 +235,14 @@ A primera vista los resultados podrían ser válidos pero al ver los resultados 
 
 
 <img src="../../images/Errors.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
-Se puede ver que tiene mucho margen de error, lo cual no es deseable.
+Se puede ver que tiene mucho margen de error, lo cual no es deseable. Un RMSE de 300 implica que las predicciones del modelo están desviadas por 300 euros, que en el caso de las laptops no es poco. Por otro lado el Squared Error puede ser alto cuando hay diferencias significativas entre los valores predichos y sus respectivos valores reales, por lo que un valor tan alto implica que el desempeño del modelo es insatisfactorio. Hay que analizar que puntos fueron los que llevaron a este valor para poder modificarlos.
 
 
 <img src="../../images/Weights.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
-Aquí se puede ver cuales fueron las columnas removidas por el algoritmo genético. Se puede ver que dejó fuera algunos atributos que a primera vista podrían ser interesantes, como Apple, cuyas laptops suelen ser de mayor precio que otras marcas. Habría que analizar que tanto afecta esto al valor final.
-
+Aquí se puede ver cuales fueron las columnas removidas por el algoritmo genético. Se puede ver que dejó fuera algunos atributos que a primera vista podrían ser interesantes, como Apple, cuyas laptops suelen ser de mayor precio que otras marcas. Habría que analizar que tanto afecta esto al valor final.  
+<br></br>
 Los resultados hasta ahora no son los ideales, dado que el error que tiene es demasiado grande como para realizar una predicción acertada. Es necesario seguir evaluando los resultados que va generando el algoritmo para ir mejorando cada vez más sus predicciones, hasta llegar a un resultado que se considere aceptable para el caso de uso que se le quiera dar.
+<br></br>
 
 #### Bibliografía
 - [Dataset](https://www.kaggle.com/datasets/muhammetvarl/laptop-price)
