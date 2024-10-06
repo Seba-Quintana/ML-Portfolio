@@ -6,12 +6,13 @@ draft = false
 
 <img src="https://sm.ign.com/ign_es/tag/s/steam/steam_rbez.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 
-### Preparacion de datos
 
 La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información.
 Para esto se eligió el dataset de _[recomendaciones de juegos en Steam](https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam)_ (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam.
-Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.
 
+### Preparacion de datos
+
+Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.
 Para comenzar con la preparación de datos, es importante conocer el dataset. Esto permitirá en primera instancia entender qué es lo que se puede hacer con los datos, y una vez definido el objetivo, validar qué predictores son los más importantes para poder alcanzarlo.
 Al tener 3 CSVs, será necesario también encontrar puntos en común para poder correlacionarlos, y de esa forma poder utilizar toda la información posible, lo que ayudará a conseguir un mejor resultado.
 

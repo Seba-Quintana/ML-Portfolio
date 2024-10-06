@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head><script src="/ML-Portfolio/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ML-Portfolio/livereload" data-no-instant defer></script><meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
@@ -28,10 +28,10 @@
 
 
 
-<meta property="og:url" content="http://localhost:1313/ML-Portfolio/blogs/steam/">
+<meta property="og:url" content="https://seba-quintana.github.io/ML-Portfolio/blogs/steam/">
   <meta property="og:site_name" content="ML Portfolio">
   <meta property="og:title" content="Recomendaciones de juegos">
-  <meta property="og:description" content=" Preparacion de datos La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información. Para esto se eligió el dataset de recomendaciones de juegos en Steam (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam. Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.">
+  <meta property="og:description" content=" La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información. Para esto se eligió el dataset de recomendaciones de juegos en Steam (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blogs">
@@ -41,7 +41,7 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Recomendaciones de juegos">
-  <meta name="twitter:description" content=" Preparacion de datos La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información. Para esto se eligió el dataset de recomendaciones de juegos en Steam (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam. Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.">
+  <meta name="twitter:description" content=" La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información. Para esto se eligió el dataset de recomendaciones de juegos en Steam (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam.">
 
 
 <link rel="stylesheet" href="https://seba-quintana.github.io/ML-Portfolio//bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="https://seba-quintana.github.io/ML-Portfolio//css/header.css" media="all">
@@ -288,18 +288,18 @@ Recomendaciones de juegos | ML Portfolio
           
           <article class="page-content  p-2">
           <img src="https://sm.ign.com/ign_es/tag/s/steam/steam_rbez.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
-<h3 id="preparacion-de-datos">Preparacion de datos</h3>
 <p>La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información.
-Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a></em> (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam.
-Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.</p>
-<p>Para comenzar con la preparación de datos, es importante conocer el dataset. Esto permitirá en primera instancia entender qué es lo que se puede hacer con los datos, y una vez definido el objetivo, validar que predictores son los más importantes para poder alcanzarlo.
+Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a></em> (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam.</p>
+<h3 id="preparacion-de-datos">Preparacion de datos</h3>
+<p>Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.
+Para comenzar con la preparación de datos, es importante conocer el dataset. Esto permitirá en primera instancia entender qué es lo que se puede hacer con los datos, y una vez definido el objetivo, validar qué predictores son los más importantes para poder alcanzarlo.
 Al tener 3 CSVs, será necesario también encontrar puntos en común para poder correlacionarlos, y de esa forma poder utilizar toda la información posible, lo que ayudará a conseguir un mejor resultado.</p>
 <h3 id="análisis-de-predictores">Análisis de predictores</h3>
 <h5 id="csv-de-juegos">CSV de juegos:</h5>
 <p>Este CSV contiene datos acerca de una gran variedad de juegos de Steam. Dentro de los campos que este tiene se encuentran:</p>
 <ul>
 <li><strong>app_id</strong>: ID del juego en Steam. Este campo será importante para poder &ldquo;mergear&rdquo; los datasets (luego se verá que tanto el json con metadata como el CSV de recomendaciones referencian este app_id) (campo integer)</li>
-<li><strong>title</strong>: Nombre del juego. Notar que algunos nombres tienen mal el formato en excel, principalmente los que utilizan simbolos como tm (trademark) o copyright, pero dentro de un editor de texto se ven bien (lo que implica que hay que tener cuidado con el formato de caractéres disponibles a elegir). Tambien existen juegos en lenguajes con otros alfabetos, a primera vista se encuentran ejemplos como chino y japones.</li>
+<li><strong>title</strong>: Nombre del juego. Notar que algunos nombres tienen mal el formato en excel, principalmente los que utilizan simbolos como <em>tm</em> (trademark) o <em>copyright</em>, pero dentro de un editor de texto se ven bien (lo que implica que hay que tener cuidado con el formato de caractéres disponibles a elegir). Tambien existen juegos en lenguajes con otros alfabetos, a primera vista se encuentran ejemplos como chino y japones.</li>
 <li><strong>date_release</strong>: Fecha de salida del juego. En excel se pueden ver algunos campos marcados con ######, pero abiertos con un editor de texto se pueden ver las fechas sin problema (el formato es año-mes-dia)</li>
 <li><strong>win</strong>: Indica si el juego es soportado por el sistema operativo Windows (campo booleano)</li>
 <li><strong>mac</strong>: Indica si el juego es soportado por el sistema operativo Mac (campo booleano)</li>
@@ -308,8 +308,8 @@ Al tener 3 CSVs, será necesario también encontrar puntos en común para poder 
 <li><strong>positive_ratio</strong>: Ratio de feedback positivo (campo integer)</li>
 <li><strong>user_reviews</strong>: Cantidad de reviews de usuarios (campo integer)</li>
 <li><strong>price_final</strong>: Precio en dolares (campo real)</li>
-<li><strong>price_original</strong>: Precio original del juego en dolares (previo al descuento), suele ser igual al price_final (campo real)</li>
-<li><strong>discount</strong>: Descuento que se le hace al juego. Si el juego esta descontado, disminuye el price_final, lo que hace que sea distinto a price_original (campo real)</li>
+<li><strong>price_original</strong>: Precio original del juego en dolares (previo al descuento), suele ser igual al <em>price_final</em> (campo real)</li>
+<li><strong>discount</strong>: Descuento que se le hace al juego. Si el juego esta descontado, disminuye el <em>price_final</em>, lo que hace que sea distinto a <em>price_original</em> (campo real)</li>
 <li><strong>steam_deck</strong>: Si el juego esta disponible o no para la Steam Deck (campo booleano)</li>
 </ul>
 <h5 id="csv-de-usuarios">CSV de usuarios:</h5>
@@ -323,8 +323,8 @@ Al tener 3 CSVs, será necesario también encontrar puntos en común para poder 
 <p>Este CSV contiene información acerca de las recomendaciones de los usuarios sobre un juego en particular:</p>
 <ul>
 <li><strong>app_id</strong>: ID del juego en Steam (campo integer)</li>
-<li><strong>helpful</strong>: Cantidad de usuarios que encontrar la recomendación útil (campo integer)</li>
-<li><strong>funny</strong>: Cantidad de usuarios que encontrar la recomendación graciosa (campo integer)</li>
+<li><strong>helpful</strong>: Cantidad de usuarios que encontraron la recomendación útil (campo integer)</li>
+<li><strong>funny</strong>: Cantidad de usuarios que encontraron la recomendación graciosa (campo integer)</li>
 <li><strong>date</strong>: Fecha de publicación (formato año-mes-día)</li>
 <li><strong>is_recommended</strong>: Si el usuario recomienda o no el juego (campo booleano)</li>
 <li><strong>hours</strong>: Cuantas horas jugó el usuario al juego (campo real)</li>
@@ -336,9 +336,9 @@ Al tener 3 CSVs, será necesario también encontrar puntos en común para poder 
 <ul>
 <li><strong>app_id</strong>: ID del juego en Steam (campo integer)</li>
 <li><strong>description</strong>: Descripción del juego (campo string)</li>
-<li><strong>tags</strong>: Lista de géneros del juego (campo categórico, con algunos ejemplos como: Action, Singleplayer, Hack and Slash, Controller, entre otros)</li>
+<li><strong>tags</strong>: Lista de géneros del juego (campo categórico, con algunos ejemplos como: <em>Action</em>, <em>Singleplayer</em>, <em>Hack and Slash</em>, <em>Controller</em>, entre otros)</li>
 </ul>
-<p>Una vez analizados y entendidos todos los datos, se puede evaluar que campos son los que nos interesan predecir. El caso más interesante sería el de ser capaz de predecir que juego le puede llegar a gustar a una persona (recomendacion de juegos).
+<p>Una vez analizados y entendidos todos los datos, se puede evaluar qué campos son los que nos interesan predecir. El caso más interesante sería el de ser capaz de predecir qué juego le puede llegar a gustar a una persona (recomendación de juegos).
 Dado que la cantidad de datos en este dataset es tan grande, es de interés saber si podemos eliminar algun predictor que sepamos que no va a ser de utilidad. De esta forma podemos alivianar la carga sobre el modelo, ahorrando tiempo y costos de procesamiento. Para saber que predictores serán útiles para la tarea, se debe encontrar una forma de saber si a un usuario le podría gustar un juego o no. A lo largo de este proyecto se consideraron dos formas para recomendar juegos:</p>
 <ul>
 <li>Saber que juegos suelen jugar otros usuarios similares (por ejemplo los juegos que tienen o recomiendan sus amigos, otros usuarios de su mismo país, etc.)</li>
@@ -367,11 +367,11 @@ Dado que la cantidad de datos en este dataset es tan grande, es de interés sabe
 </span></span><span style="display:flex;"><span>full_data_metadata<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;steam_data.csv&#39;</span>, index<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(full_data_metadata<span style="color:#f92672">.</span>head())
-</span></span></code></pre></div><p>(tambien es posible mergear los CSVs desde RapidMiner, pero consume una enorme cantidad de recursos, y de faltar no permite continuar con la ejecución del bloque)</p>
+</span></span></code></pre></div><p>(también es posible mergear los CSVs desde RapidMiner, pero consume una enorme cantidad de recursos, y de faltar no permite continuar con la ejecución del bloque)</p>
 <p>El problema de este approach es que se genera un CSV con una cantidad de datos tan grande que RapidMiner, Excel, e incluso a editores de texto les cuesta incluso leerlo. Por lo tanto, se debe encontrar una forma de achicar los CSVs previo al mergeo.</p>
 <h3 id="segundo-approach">Segundo approach</h3>
-<p>Dado que simplemente mergear todos los datos resultó inviable, el siguiente paso fue buscar si habían filas que no se podrían enviar al modelo. Por ejemplo, los tags son absolutamente necesarios para poder realizar recomendaciones en base al género de un juego, por lo que si un juego no tiene tags, entonces se puede descartar el juego, dado que falta información suficiente como para recomendarlo (se pueden utilizar otros campos, pero la recomendación no será tan acertada). Por lo tanto, se puede reducir la cantidad de datos en gran medida removiendo las filas que no poseen tags. Tambien es posible aprovechar y remover las filas que tienen descripción vacía, para intentar reducir la cantidad de datos.
-El problema que tiene esto es que aún así la cantidad de datos sigue siendo muy grande. Por esta razón, se creó un script que aparte de remover las filas con una descripción y una lista de tags vacía, segmenta el CSV resultante en distintos CSVs, dando como resultado unos aproximadamente 400 CSVs, cada uno con una porción del CSV original.</p>
+<p>Dado que simplemente mergear todos los datos resultó inviable, el siguiente paso fue buscar si habían filas que podrían no ser enviadas al modelo. Por ejemplo, los tags son absolutamente necesarios para poder realizar recomendaciones en base al género de un juego, por lo que si un juego no tiene tags, entonces se puede descartar el juego, dado que falta información suficiente como para recomendarlo (se pueden utilizar otros campos, pero la recomendación no será tan acertada). Por lo tanto, se puede reducir la cantidad de datos en gran medida removiendo las filas que no poseen tags. Tambien es posible aprovechar y remover las filas que tienen descripción vacía, para intentar reducir la cantidad de datos.
+Y aún así, la cantidad de datos sigue siendo muy grande. Por esta razón, se creó un script que aparte de remover las filas con una descripción y una lista de tags vacía, segmenta el CSV resultante en distintos CSVs, dando como resultado unos aproximadamente 400 CSVs, cada uno con una porción del CSV original.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#f92672">import</span> dask.dataframe <span style="color:#66d9ef">as</span> dd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span>
@@ -395,9 +395,9 @@ El problema que tiene esto es que aún así la cantidad de datos sigue siendo mu
 </span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;cleaned_dataset_*.csv&#39;</span>, index<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
 </span></span></code></pre></div><h3 id="siguiendo-con-el-análisis">Siguiendo con el análisis&hellip;</h3>
 <p>Con este último paso ya se comienza a poseer una cantidad de datos manejable, que se puede introducir en RapidMiner para comenzar con el desarrollo del proceso. Pero esto si solo se considera el tamaño del dataset.
-Otro problema que surge es que aun así RapidMiner no lo puede procesar, porque los géneros no dejan de ser una lista de tags separados por coma, lo que al momento de mergear con los CSVs genera un archivo que, al ingresar al RapidMiner, no sabe hasta donde llega cada columna, y por lo tanto genera errores.
+Otro problema que surge es que aún con estos cambios RapidMiner no lo puede procesar, porque los géneros no dejan de ser una lista de tags separados por coma, lo que al momento de mergear con los CSVs genera un archivo que, al ingresar al RapidMiner, no sabe hasta donde llega cada columna, y por lo tanto genera errores.
 Para solucionar esto hay varios caminos. El primero sería sustituir las comas por otro símbolo en la lista de tags. Esto soluciona el problema del parseo, pero queda pendiente el ver como se puede formatear el dato para que un modelo de machine learning lo pueda procesar.
-Por otro lado, el segundo camino sería llevar cada uno de los tags a una columna binaria. Este segundo approach permite que la información se guarde de forma mas estructurada, y en forma de números binarios, que dependiendo del algoritmo de ML que se utilice, esto podría ser una ventaja (se pueden utilizar números o booleanos, y no representan un orden en particular, lo que sirve para este caso)</p>
+Por otro lado, el segundo camino sería llevar cada uno de los tags a una columna binaria (mediante One-Hot Encoding). Este segundo approach permite que la información se guarde de forma más estructurada y en números binarios, que dependiendo del algoritmo de ML que se utilice, esto podría ser una ventaja, ya que aún siendo números no tendrán un orden definido.</p>
 <h4 id="bibliografía">Bibliografía</h4>
 <ul>
 <li><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">Dataset</a></li>
@@ -443,22 +443,22 @@ Por otro lado, el segundo camino sería llevar cada uno de los tags a una column
             <div class="social-content">
               <ul class="list-inline">
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2fsteam%2f">
+                  <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2fsteam%2f">
                     <i class="fab fa-linkedin"></i>
                   </a>
                 </li>
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href="https://twitter.com/share?text=Recomendaciones%20de%20juegos&url=http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2fsteam%2f">
+                  <a target="_blank" href="https://twitter.com/share?text=Recomendaciones%20de%20juegos&url=https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2fsteam%2f">
                     <i class="fab fa-twitter"></i>
                   </a>
                 </li>
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href="https://api.whatsapp.com/send?text=Recomendaciones%20de%20juegos: http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2fsteam%2f">
+                  <a target="_blank" href="https://api.whatsapp.com/send?text=Recomendaciones%20de%20juegos: https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2fsteam%2f">
                     <i class="fab fa-whatsapp"></i>
                   </a>
                 </li>
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href='mailto:?subject=Recomendaciones%20de%20juegos&amp;body=Check%20out%20this%20site http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2fsteam%2f'>
+                  <a target="_blank" href='mailto:?subject=Recomendaciones%20de%20juegos&amp;body=Check%20out%20this%20site https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2fsteam%2f'>
                     <i class="fa fa-envelope"></i>
                   </a>
                 </li>
@@ -542,9 +542,8 @@ Por otro lado, el segundo camino sería llevar cada uno de los tags a una column
                     </a>
                     <div class="card-text secondary-font">
                         <p><img src="https://sm.ign.com/ign_es/tag/s/steam/steam_rbez.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
-<h3 id="preparacion-de-datos">Preparacion de datos</h3>
 <p>La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información.
-Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a></em> (plataforma de distribución digital de videojuegos), el cual cuenta …</p></p>
+Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a></em> (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de …</p></p>
                     </div>
                 </div>
                 <div class="mt-auto card-footer">
@@ -694,7 +693,7 @@ Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/
         <div class="col-md-4 text-center">
             
                 <div class="pb-2">
-                    <a href="http://localhost:1313/ML-Portfolio/" title="ML Portfolio">
+                    <a href="https://seba-quintana.github.io/ML-Portfolio/" title="ML Portfolio">
                         <img alt="Footer logo" src="fav.png"
                             height="40px" width="40px">
                     </a>

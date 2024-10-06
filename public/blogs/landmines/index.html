@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head><script src="/ML-Portfolio/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=ML-Portfolio/livereload" data-no-instant defer></script><meta charset="UTF-8">
+<head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
@@ -28,7 +28,7 @@
 
 
 
-<meta property="og:url" content="http://localhost:1313/ML-Portfolio/blogs/landmines/">
+<meta property="og:url" content="https://seba-quintana.github.io/ML-Portfolio/blogs/landmines/">
   <meta property="og:site_name" content="ML Portfolio">
   <meta property="og:title" content="¿Es una mina?">
   <meta property="og:description" content="La idea de este post es intentar crear varios modelos de Machine Learning que permitan predecir si el resultado de un análisis de un sonar es una roca o una mina. Este modelo es inherentemente de clasificación, ya que la variable objetivo será el atributo que determine si es una mina o no (llamado class), y por lo tanto se realizará un análisis de los distintos modelos de clasificación (bajo las mismas condiciones), para evaluar qué modelo se ajusta mejor a este caso en particular. Notar que no se realizará preparación de datos previa, justamente para identificar ventajas y desventajas de los distintos modelos (por ejemplo, algunos serán perjudicados por la distribución de los datos, mientras que otros son más resistentes a esto. O quizás la falta de normalización o el tipo de datos de las entradas afecte de manera negativa a algún modelo pero a otros no, etc.).">
@@ -301,7 +301,7 @@
 <img src="../../images/Naive_Bayes.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 <p>Matriz de confusión:
 <img src="../../images/Naive_Bayes_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/></p>
-<p>En este caso, se puede ver que Naive Bayes tiene un 67% de exactitud, lo que no es ideal, pero no es un mal resultado siendo que no hubo procesamiento previo de los datos. Aunque si tenemos en cuenta solamente el caso en el que la mina realmente existe, vemos que tiene una exactitud de aproximadamente 55%, lo que quiere decir que cuando la mina existe al modelo le cuesta darse cuenta, lo que no es nada bueno.</p>
+<p>En este caso, se puede ver que Naive Bayes tiene un 67% de exactitud, lo que no es ideal, pero no es un mal resultado siendo que no hubo procesamiento previo de los datos. Aunque si tenemos en cuenta solamente el caso en el que la mina realmente existe, vemos que tiene una exactitud de aproximadamente 55%, lo que quiere decir que cuando la mina existe, al modelo le cuesta darse cuenta, lo que no es nada bueno.</p>
 <h3 id="desicion-trees">Desicion Trees</h3>
 <p>Proceso utilizando Desicion Trees:</p>
 <img src="../../images/Desicion_Tree.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
@@ -314,12 +314,12 @@
 <p>Matriz de confusión:
 <img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/></p>
 <p>La regresión logística en términos simples consiste en utilizar una función que tiene un umbral, donde si el valor es menor al umbral se considera de una clase, y si es mayor se considera de la otra. Se puede ver que tiene una performance bastante mayor a la de Naive Bayes y Desicion Trees, dado que no solo tiene una exactitud del 71%, si no que también es mejor detectando tanto piedras como minas. En el caso de haber una mina, tiene un 71% de exactitud para detectarla, lo que es una mejora en todo sentido frente a los casos anteriores.</p>
-<p>Esto probablemente se deba a que al contrario de los otros dos modelos, la regresión logística es capaz de operar con valores continuos como lo son los números reales, lo que conlleva a un mejor rendimiento en estos casos. Los otros dos modelos soportan números reales, pero podrían tener un mejor comportamiento si separaramos las distintas frecuencias en rangos, para generar una menor cantidad de clases y que les resulte más sencillo relacionar los datos.</p>
+<p>Esto probablemente se deba a que, al contrario de los otros dos modelos, la regresión logística es capaz de operar con valores continuos como lo son los números reales, lo que conlleva a un mejor rendimiento en estos casos. Los otros dos modelos soportan números reales, pero podrían tener un mejor comportamiento si separaramos las distintas frecuencias en rangos, para generar una menor cantidad de clases y que les resulte más sencillo relacionar los datos.</p>
 <h3 id="lda">LDA</h3>
 <p>Proceso utilizando Linear Discriminant Analysis:</p>
-<img src="../../images/Logistic_Regression.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/LDA.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 <p>Matriz de confusión:
-<img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/></p>
+<img src="../../images/LDA_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/></p>
 <p>Este caso supera todos los modelos anteriores, con un 77% de exactitud total, e incluso un 81% en el caso de ser una mina. LDA crea un nuevo eje que maximiza la separación entre las clases. En este contexto, lo que busca es determinar si un nuevo elemento se acerca más a la media de los elementos clasificados como rocas o a la media de los clasificados como minas, y en base a esto realiza la predicción.</p>
 <h3 id="k-nn">K-NN</h3>
 <p>Proceso utilizando K-NN:</p>
@@ -329,15 +329,15 @@
 <p>Aquí se puede ver que este modelo ha tenido la mejor performance de todos los modelos hasta ahora, con un 81% de exactitud en total, y si el objetivo a analizar es una mina resulta tener un 87% de exactitud, lo cual es bastante alto, considerando que no se buscó optimizar el modelo ni preparar los datos previamente.</p>
 <h3 id="análisis-de-resultados">Análisis de Resultados</h3>
 <p>Una de las posibles razones por las que los modelos K-NN y LDA funcionan tan bien en comparación a los otros modelos puede ser porque las dos clases se encuentran muy separadas:
-<img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/LDA_Chart.jpeg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 Otra posibilidad es que los datos se aproximan a una distribución normal, lo que mejora el funcionamiento de LDA:
 <img src="../../images/LDA_Distr.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 Por otro lado, Naive Bayes puede tener un comportamiento peor porque asume que los datos son condicionalmente independientes, lo que no necesariamente se cumple en este caso, mientras que la regresión logística y LDA son más resistentes a esto.
-En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar por el tamaño del dataset o por el ruido, mientras que tanto K-NN como LDA y regresión logística son más resistentes a esto.</p>
+En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar por el tamaño del dataset o por el ruido, mientras que tanto K-NN como LDA y regresión logística son más resistentes al sobreajuste por ruido.</p>
 <p>Por último, K-NN es el modelo que mejor pudo predecir la variable objetivo. Esto se puede deber a distintas razones:</p>
 <ul>
-<li>K-NN no pierde exactitud según la distribución de los datos</li>
-<li>Como LDA se basa en promedios y K-NN en los nodos cercanos, K-NN se ve beneficiado con datasets chicos donde las clases similares se encuentren cerca, dado que LDA calcula el promedio de todos los datos. Esto también quiere decir que se ve mayormente afectado por outliers que K-NN, dado que con un valor pequeño de K, K-NN no toma en cuenta los outliers, mientras que LDA sí los puede llegar a tomar.</li>
+<li>K-NN no pierde exactitud según la distribución de los datos, lo que hace que su performance sea mejor que la de LDA</li>
+<li>Como LDA se basa en promedios y K-NN en los nodos cercanos, K-NN se ve beneficiado con datasets chicos donde las clases similares se encuentran cerca, dado que LDA calcula el promedio de todos los datos. Esto también quiere decir que se ve mayormente afectado por outliers que K-NN, dado que con un valor pequeño de K, K-NN toma en cuenta una menor cantidad de outliers que LDA.</li>
 </ul>
 <h3 id="para-seguir-comparando">Para seguir comparando&hellip;</h3>
 <ul>
@@ -390,22 +390,22 @@ En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar p
             <div class="social-content">
               <ul class="list-inline">
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2flandmines%2f">
+                  <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2flandmines%2f">
                     <i class="fab fa-linkedin"></i>
                   </a>
                 </li>
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href="https://twitter.com/share?text=%c2%bfEs%20una%20mina%3f&url=http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2flandmines%2f">
+                  <a target="_blank" href="https://twitter.com/share?text=%c2%bfEs%20una%20mina%3f&url=https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2flandmines%2f">
                     <i class="fab fa-twitter"></i>
                   </a>
                 </li>
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href="https://api.whatsapp.com/send?text=%c2%bfEs%20una%20mina%3f: http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2flandmines%2f">
+                  <a target="_blank" href="https://api.whatsapp.com/send?text=%c2%bfEs%20una%20mina%3f: https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2flandmines%2f">
                     <i class="fab fa-whatsapp"></i>
                   </a>
                 </li>
                 <li class="list-inline-item text-center">
-                  <a target="_blank" href='mailto:?subject=%c2%bfEs%20una%20mina%3f&amp;body=Check%20out%20this%20site http%3a%2f%2flocalhost%3a1313%2fML-Portfolio%2fblogs%2flandmines%2f'>
+                  <a target="_blank" href='mailto:?subject=%c2%bfEs%20una%20mina%3f&amp;body=Check%20out%20this%20site https%3a%2f%2fseba-quintana.github.io%2fML-Portfolio%2fblogs%2flandmines%2f'>
                     <i class="fa fa-envelope"></i>
                   </a>
                 </li>
@@ -489,9 +489,8 @@ En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar p
                     </a>
                     <div class="card-text secondary-font">
                         <p><img src="https://sm.ign.com/ign_es/tag/s/steam/steam_rbez.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
-<h3 id="preparacion-de-datos">Preparacion de datos</h3>
 <p>La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información.
-Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a></em> (plataforma de distribución digital de videojuegos), el cual cuenta …</p></p>
+Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam">recomendaciones de juegos en Steam</a></em> (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de …</p></p>
                     </div>
                 </div>
                 <div class="mt-auto card-footer">
@@ -641,7 +640,7 @@ Para esto se eligió el dataset de <em><a href="https://www.kaggle.com/datasets/
         <div class="col-md-4 text-center">
             
                 <div class="pb-2">
-                    <a href="http://localhost:1313/ML-Portfolio/" title="ML Portfolio">
+                    <a href="https://seba-quintana.github.io/ML-Portfolio/" title="ML Portfolio">
                         <img alt="Footer logo" src="fav.png"
                             height="40px" width="40px">
                     </a>

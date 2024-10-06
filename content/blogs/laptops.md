@@ -24,15 +24,16 @@ El primer paso en un proceso de Machine Learning siempre es conseguir los datos.
 - `OpSys` - String - Operating System
 - `Weight` - String - Laptop Weight
 - `Price_euros` - Numeric - Price (Euro)
+
 (Campos directamente extraídos de la documentación del dataset)
 
-De esta información, lo que interesa predecir, la variable objetivo, es `Price_euros`. Por lo tanto, al ser una variable numérica, implica que se tendrá que utilizar algún modelo de regresion.
+De esta información, lo que interesa predecir, la variable objetivo, es `Price_euros`. Por lo tanto, al ser una variable numérica, implica que se tendrá que utilizar algún modelo de regresión.
 
 #### Feature selection
 
-Previo al análisis de los datos, se puede ver si existe alguna columna que pueda ser removida del dataset, principalmente columnas que, o no aporten para predecir la variable objetivo, o que tengan algún problema por el que no pueda ser usada. En este caso, se puede ver a simple vista que el nombre del modelo (`Product`) de la laptop no resulta útil, dado que lo más importante para predecir el precio son los componentes de la laptop y la marca, los cuales ya existen en el dataset. El modelo en particular no suele añadir una gran diferencia en el precio por si mismo.
+Previo al análisis de los datos, se puede ver si existe alguna columna que pueda ser removida del dataset, principalmente columnas que, o no aporten para predecir la variable objetivo, o que tengan algún problema por el que no pueda ser usada. En este caso, se puede ver a simple vista que el nombre del modelo (`Product`) de la laptop no resulta útil, dado que lo más importante para predecir el precio son los componentes de la laptop y la marca, los cuales ya existen en el dataset. El modelo en particular no suele añadir una gran diferencia en el precio por sí mismo.
 
-Otro ejemplo de columna que se puede remover es la de `TypeName`. A simple vista uno podría pensar que esta columna es importante, ya que una computadora para gaming será más cara que una simple Notebook, pero en realidad si la computadora para gaming es más cara es por los componentes, los cuales ya están siendo considerados. Por lo tanto, se puede remover la columna, ya que existe una correlación entre dichas columnas.
+Otro ejemplo de columna que se puede remover es la de `TypeName`. A simple vista uno podría pensar que esta columna es importante, ya que una computadora para gaming será más cara que una simple Notebook, pero en realidad si la computadora para gaming es más cara, es por los componentes, los cuales ya están siendo considerados. Por lo tanto, se puede remover la columna, ya que existe una correlación entre dichas columnas.
 
 ### Análisis de datos
 
@@ -206,7 +207,7 @@ df.to_csv('cleaned_laptops.csv', index=False)
 
 #### Outlier detection
 
-Una vez se encuentra la variable objetivo, se puede observar si existe algún outlier en los datos. Al ser pocos datos, se pueden analizar a simple vista, aunque luego se podrían utilizar tanto Excel como RapidMiner para una detección de outliers automatizada, que podrá eliminar algún outlier que no se vea a simple vista. En este caso en particular no parece haber ningun dato que sobresalga.
+Una vez se encuentra la variable objetivo, se puede observar si existe algún outlier en los datos. Al ser pocos datos, se pueden analizar a simple vista, aunque luego se podrían utilizar tanto Excel como RapidMiner para una detección de outliers automatizada, que podrá eliminar algún outlier que no se vea a simple vista. En este caso en particular no parece haber ningún dato que sobresalga.
 
 ### Generación del proceso
 

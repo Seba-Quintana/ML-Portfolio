@@ -31,7 +31,7 @@ Proceso utilizando Naive Bayes:
 Matriz de confusión:
 <img src="../../images/Naive_Bayes_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 
-En este caso, se puede ver que Naive Bayes tiene un 67% de exactitud, lo que no es ideal, pero no es un mal resultado siendo que no hubo procesamiento previo de los datos. Aunque si tenemos en cuenta solamente el caso en el que la mina realmente existe, vemos que tiene una exactitud de aproximadamente 55%, lo que quiere decir que cuando la mina existe al modelo le cuesta darse cuenta, lo que no es nada bueno.
+En este caso, se puede ver que Naive Bayes tiene un 67% de exactitud, lo que no es ideal, pero no es un mal resultado siendo que no hubo procesamiento previo de los datos. Aunque si tenemos en cuenta solamente el caso en el que la mina realmente existe, vemos que tiene una exactitud de aproximadamente 55%, lo que quiere decir que cuando la mina existe, al modelo le cuesta darse cuenta, lo que no es nada bueno.
 
 ### Desicion Trees
 
@@ -55,16 +55,16 @@ Matriz de confusión:
 
 La regresión logística en términos simples consiste en utilizar una función que tiene un umbral, donde si el valor es menor al umbral se considera de una clase, y si es mayor se considera de la otra. Se puede ver que tiene una performance bastante mayor a la de Naive Bayes y Desicion Trees, dado que no solo tiene una exactitud del 71%, si no que también es mejor detectando tanto piedras como minas. En el caso de haber una mina, tiene un 71% de exactitud para detectarla, lo que es una mejora en todo sentido frente a los casos anteriores.
 
-Esto probablemente se deba a que al contrario de los otros dos modelos, la regresión logística es capaz de operar con valores continuos como lo son los números reales, lo que conlleva a un mejor rendimiento en estos casos. Los otros dos modelos soportan números reales, pero podrían tener un mejor comportamiento si separaramos las distintas frecuencias en rangos, para generar una menor cantidad de clases y que les resulte más sencillo relacionar los datos.
+Esto probablemente se deba a que, al contrario de los otros dos modelos, la regresión logística es capaz de operar con valores continuos como lo son los números reales, lo que conlleva a un mejor rendimiento en estos casos. Los otros dos modelos soportan números reales, pero podrían tener un mejor comportamiento si separaramos las distintas frecuencias en rangos, para generar una menor cantidad de clases y que les resulte más sencillo relacionar los datos.
 
 ### LDA
 
 Proceso utilizando Linear Discriminant Analysis:
 
-<img src="../../images/Logistic_Regression.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/LDA.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 
 Matriz de confusión:
-<img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/LDA_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 
 Este caso supera todos los modelos anteriores, con un 77% de exactitud total, e incluso un 81% en el caso de ser una mina. LDA crea un nuevo eje que maximiza la separación entre las clases. En este contexto, lo que busca es determinar si un nuevo elemento se acerca más a la media de los elementos clasificados como rocas o a la media de los clasificados como minas, y en base a esto realiza la predicción.
 
@@ -82,15 +82,15 @@ Aquí se puede ver que este modelo ha tenido la mejor performance de todos los m
 ### Análisis de Resultados
 
 Una de las posibles razones por las que los modelos K-NN y LDA funcionan tan bien en comparación a los otros modelos puede ser porque las dos clases se encuentran muy separadas:
-<img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/LDA_Chart.jpeg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 Otra posibilidad es que los datos se aproximan a una distribución normal, lo que mejora el funcionamiento de LDA:
 <img src="../../images/LDA_Distr.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 Por otro lado, Naive Bayes puede tener un comportamiento peor porque asume que los datos son condicionalmente independientes, lo que no necesariamente se cumple en este caso, mientras que la regresión logística y LDA son más resistentes a esto.
-En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar por el tamaño del dataset o por el ruido, mientras que tanto K-NN como LDA y regresión logística son más resistentes a esto.
+En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar por el tamaño del dataset o por el ruido, mientras que tanto K-NN como LDA y regresión logística son más resistentes al sobreajuste por ruido.
 
 Por último, K-NN es el modelo que mejor pudo predecir la variable objetivo. Esto se puede deber a distintas razones:
-- K-NN no pierde exactitud según la distribución de los datos
-- Como LDA se basa en promedios y K-NN en los nodos cercanos, K-NN se ve beneficiado con datasets chicos donde las clases similares se encuentren cerca, dado que LDA calcula el promedio de todos los datos. Esto también quiere decir que se ve mayormente afectado por outliers que K-NN, dado que con un valor pequeño de K, K-NN no toma en cuenta los outliers, mientras que LDA sí los puede llegar a tomar.
+- K-NN no pierde exactitud según la distribución de los datos, lo que hace que su performance sea mejor que la de LDA
+- Como LDA se basa en promedios y K-NN en los nodos cercanos, K-NN se ve beneficiado con datasets chicos donde las clases similares se encuentran cerca, dado que LDA calcula el promedio de todos los datos. Esto también quiere decir que se ve mayormente afectado por outliers que K-NN, dado que con un valor pequeño de K, K-NN toma en cuenta una menor cantidad de outliers que LDA.
 
 ### Para seguir comparando...
 
