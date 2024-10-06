@@ -12,7 +12,7 @@ La idea principal de este post es analizar los inicios de la preparación de dat
 Para esto se eligió el dataset de _[recomendaciones de juegos en Steam](https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam)_ (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam.
 Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.
 
-Para comenzar con la preparación de datos, es importante conocer el dataset. Esto permitirá en primera instancia entender qué es lo que se puede hacer con los datos, y una vez definido el objetivo, validar que predictores son los más importantes para poder alcanzarlo.
+Para comenzar con la preparación de datos, es importante conocer el dataset. Esto permitirá en primera instancia entender qué es lo que se puede hacer con los datos, y una vez definido el objetivo, validar qué predictores son los más importantes para poder alcanzarlo.
 Al tener 3 CSVs, será necesario también encontrar puntos en común para poder correlacionarlos, y de esa forma poder utilizar toda la información posible, lo que ayudará a conseguir un mejor resultado.
 
 ### Análisis de predictores
@@ -20,7 +20,7 @@ Al tener 3 CSVs, será necesario también encontrar puntos en común para poder 
 ##### CSV de juegos:
 Este CSV contiene datos acerca de una gran variedad de juegos de Steam. Dentro de los campos que este tiene se encuentran:
 - **app_id**: ID del juego en Steam. Este campo será importante para poder "mergear" los datasets (luego se verá que tanto el json con metadata como el CSV de recomendaciones referencian este app_id) (campo integer)
-- **title**: Nombre del juego. Notar que algunos nombres tienen mal el formato en excel, principalmente los que utilizan simbolos como tm (trademark) o copyright, pero dentro de un editor de texto se ven bien (lo que implica que hay que tener cuidado con el formato de caractéres disponibles a elegir). Tambien existen juegos en lenguajes con otros alfabetos, a primera vista se encuentran ejemplos como chino y japones.
+- **title**: Nombre del juego. Notar que algunos nombres tienen mal el formato en excel, principalmente los que utilizan simbolos como _tm_ (trademark) o _copyright_, pero dentro de un editor de texto se ven bien (lo que implica que hay que tener cuidado con el formato de caractéres disponibles a elegir). Tambien existen juegos en lenguajes con otros alfabetos, a primera vista se encuentran ejemplos como chino y japones.
 - **date_release**: Fecha de salida del juego. En excel se pueden ver algunos campos marcados con ######, pero abiertos con un editor de texto se pueden ver las fechas sin problema (el formato es año-mes-dia)
 - **win**: Indica si el juego es soportado por el sistema operativo Windows (campo booleano)
 - **mac**: Indica si el juego es soportado por el sistema operativo Mac (campo booleano)
@@ -29,8 +29,8 @@ Este CSV contiene datos acerca de una gran variedad de juegos de Steam. Dentro d
 - **positive_ratio**: Ratio de feedback positivo (campo integer)
 - **user_reviews**: Cantidad de reviews de usuarios (campo integer)
 - **price_final**: Precio en dolares (campo real)
-- **price_original**: Precio original del juego en dolares (previo al descuento), suele ser igual al price_final (campo real)
-- **discount**: Descuento que se le hace al juego. Si el juego esta descontado, disminuye el price_final, lo que hace que sea distinto a price_original (campo real)
+- **price_original**: Precio original del juego en dolares (previo al descuento), suele ser igual al _price_final_ (campo real)
+- **discount**: Descuento que se le hace al juego. Si el juego esta descontado, disminuye el _price_final_, lo que hace que sea distinto a _price_original_ (campo real)
 - **steam_deck**: Si el juego esta disponible o no para la Steam Deck (campo booleano)
 
 ##### CSV de usuarios:
@@ -42,8 +42,8 @@ Este CSV contiene información (anonimizada) acerca de usuarios registrados en S
 ##### CSV de recomendaciones:
 Este CSV contiene información acerca de las recomendaciones de los usuarios sobre un juego en particular:
 - **app_id**: ID del juego en Steam (campo integer)
-- **helpful**: Cantidad de usuarios que encontrar la recomendación útil (campo integer)
-- **funny**: Cantidad de usuarios que encontrar la recomendación graciosa (campo integer)
+- **helpful**: Cantidad de usuarios que encontraron la recomendación útil (campo integer)
+- **funny**: Cantidad de usuarios que encontraron la recomendación graciosa (campo integer)
 - **date**: Fecha de publicación (formato año-mes-día)
 - **is_recommended**: Si el usuario recomienda o no el juego (campo booleano)
 - **hours**: Cuantas horas jugó el usuario al juego (campo real)
@@ -54,9 +54,9 @@ Este CSV contiene información acerca de las recomendaciones de los usuarios sob
 Este JSON profundiza y agrega información acerca de algunos de los juegos del CSV de juegos, con los siguientes datos:
 - **app_id**: ID del juego en Steam (campo integer)
 - **description**: Descripción del juego (campo string)
-- **tags**: Lista de géneros del juego (campo categórico, con algunos ejemplos como: Action, Singleplayer, Hack and Slash, Controller, entre otros)
+- **tags**: Lista de géneros del juego (campo categórico, con algunos ejemplos como: _Action_, _Singleplayer_, _Hack and Slash_, _Controller_, entre otros)
 
-Una vez analizados y entendidos todos los datos, se puede evaluar que campos son los que nos interesan predecir. El caso más interesante sería el de ser capaz de predecir que juego le puede llegar a gustar a una persona (recomendacion de juegos).
+Una vez analizados y entendidos todos los datos, se puede evaluar qué campos son los que nos interesan predecir. El caso más interesante sería el de ser capaz de predecir qué juego le puede llegar a gustar a una persona (recomendación de juegos).
 Dado que la cantidad de datos en este dataset es tan grande, es de interés saber si podemos eliminar algun predictor que sepamos que no va a ser de utilidad. De esta forma podemos alivianar la carga sobre el modelo, ahorrando tiempo y costos de procesamiento. Para saber que predictores serán útiles para la tarea, se debe encontrar una forma de saber si a un usuario le podría gustar un juego o no. A lo largo de este proyecto se consideraron dos formas para recomendar juegos:
 - Saber que juegos suelen jugar otros usuarios similares (por ejemplo los juegos que tienen o recomiendan sus amigos, otros usuarios de su mismo país, etc.)
 - Recomendar juegos que tengan metadata similar a los que el usuario ya ha jugado y recomendado previamente
@@ -90,14 +90,14 @@ full_data_metadata.to_csv('steam_data.csv', index=False)
 print(full_data_metadata.head())
 ```
 
-(tambien es posible mergear los CSVs desde RapidMiner, pero consume una enorme cantidad de recursos, y de faltar no permite continuar con la ejecución del bloque)
+(también es posible mergear los CSVs desde RapidMiner, pero consume una enorme cantidad de recursos, y de faltar no permite continuar con la ejecución del bloque)
 
 El problema de este approach es que se genera un CSV con una cantidad de datos tan grande que RapidMiner, Excel, e incluso a editores de texto les cuesta incluso leerlo. Por lo tanto, se debe encontrar una forma de achicar los CSVs previo al mergeo.
 
 ### Segundo approach
 
-Dado que simplemente mergear todos los datos resultó inviable, el siguiente paso fue buscar si habían filas que no se podrían enviar al modelo. Por ejemplo, los tags son absolutamente necesarios para poder realizar recomendaciones en base al género de un juego, por lo que si un juego no tiene tags, entonces se puede descartar el juego, dado que falta información suficiente como para recomendarlo (se pueden utilizar otros campos, pero la recomendación no será tan acertada). Por lo tanto, se puede reducir la cantidad de datos en gran medida removiendo las filas que no poseen tags. Tambien es posible aprovechar y remover las filas que tienen descripción vacía, para intentar reducir la cantidad de datos.
-El problema que tiene esto es que aún así la cantidad de datos sigue siendo muy grande. Por esta razón, se creó un script que aparte de remover las filas con una descripción y una lista de tags vacía, segmenta el CSV resultante en distintos CSVs, dando como resultado unos aproximadamente 400 CSVs, cada uno con una porción del CSV original.
+Dado que simplemente mergear todos los datos resultó inviable, el siguiente paso fue buscar si habían filas que podrían no ser enviadas al modelo. Por ejemplo, los tags son absolutamente necesarios para poder realizar recomendaciones en base al género de un juego, por lo que si un juego no tiene tags, entonces se puede descartar el juego, dado que falta información suficiente como para recomendarlo (se pueden utilizar otros campos, pero la recomendación no será tan acertada). Por lo tanto, se puede reducir la cantidad de datos en gran medida removiendo las filas que no poseen tags. Tambien es posible aprovechar y remover las filas que tienen descripción vacía, para intentar reducir la cantidad de datos.
+Y aún así, la cantidad de datos sigue siendo muy grande. Por esta razón, se creó un script que aparte de remover las filas con una descripción y una lista de tags vacía, segmenta el CSV resultante en distintos CSVs, dando como resultado unos aproximadamente 400 CSVs, cada uno con una porción del CSV original.
 
 ```Python
 import dask.dataframe as dd
@@ -126,9 +126,9 @@ df.to_csv('cleaned_dataset_*.csv', index=False)
 ### Siguiendo con el análisis...
 
 Con este último paso ya se comienza a poseer una cantidad de datos manejable, que se puede introducir en RapidMiner para comenzar con el desarrollo del proceso. Pero esto si solo se considera el tamaño del dataset.
-Otro problema que surge es que aun así RapidMiner no lo puede procesar, porque los géneros no dejan de ser una lista de tags separados por coma, lo que al momento de mergear con los CSVs genera un archivo que, al ingresar al RapidMiner, no sabe hasta donde llega cada columna, y por lo tanto genera errores.
+Otro problema que surge es que aún con estos cambios RapidMiner no lo puede procesar, porque los géneros no dejan de ser una lista de tags separados por coma, lo que al momento de mergear con los CSVs genera un archivo que, al ingresar al RapidMiner, no sabe hasta donde llega cada columna, y por lo tanto genera errores.
 Para solucionar esto hay varios caminos. El primero sería sustituir las comas por otro símbolo en la lista de tags. Esto soluciona el problema del parseo, pero queda pendiente el ver como se puede formatear el dato para que un modelo de machine learning lo pueda procesar.
-Por otro lado, el segundo camino sería llevar cada uno de los tags a una columna binaria. Este segundo approach permite que la información se guarde de forma mas estructurada, y en forma de números binarios, que dependiendo del algoritmo de ML que se utilice, esto podría ser una ventaja (se pueden utilizar números o booleanos, y no representan un orden en particular, lo que sirve para este caso)
+Por otro lado, el segundo camino sería llevar cada uno de los tags a una columna binaria (mediante One-Hot Encoding). Este segundo approach permite que la información se guarde de forma más estructurada y en números binarios, que dependiendo del algoritmo de ML que se utilice, esto podría ser una ventaja, ya que aún siendo números no tendrán un orden definido.
 
 #### Bibliografía
 
