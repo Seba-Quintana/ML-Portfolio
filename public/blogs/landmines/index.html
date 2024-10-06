@@ -339,6 +339,52 @@ En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar p
 <li>K-NN no pierde exactitud según la distribución de los datos, lo que hace que su performance sea mejor que la de LDA</li>
 <li>Como LDA se basa en promedios y K-NN en los nodos cercanos, K-NN se ve beneficiado con datasets chicos donde las clases similares se encuentran cerca, dado que LDA calcula el promedio de todos los datos. Esto también quiere decir que se ve mayormente afectado por outliers que K-NN, dado que con un valor pequeño de K, K-NN toma en cuenta una menor cantidad de outliers que LDA.</li>
 </ul>
+<h3 id="modelo-en-python">Modelo en Python</h3>
+<p>Replicando el proceso realizado con K-NN en RapidMiner utilizando Python (utilizando el <a href="https://archive.ics.uci.edu/dataset/151/connectionist+bench+sonar+mines+vs+rocks">dataset Sonar de UCI</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> train_test_split, KFold
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.neighbors <span style="color:#f92672">import</span> KNeighborsClassifier
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># data = pd.read_csv(&#34;sonar.csv&#34;)</span>
+</span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>iloc[:, :<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>values <span style="color:#75715e"># Features</span>
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>iloc[:, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>values <span style="color:#75715e"># Target</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kf <span style="color:#f92672">=</span> KFold(n_splits<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>knn <span style="color:#f92672">=</span> KNeighborsClassifier(n_neighbors<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>accuracy_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>all_predictions <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>all_true_labels <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> train_index, test_index <span style="color:#f92672">in</span> kf<span style="color:#f92672">.</span>split(X):
+</span></span><span style="display:flex;"><span>    X_train, X_test <span style="color:#f92672">=</span> X[train_index], X[test_index]
+</span></span><span style="display:flex;"><span>    y_train, y_test <span style="color:#f92672">=</span> y[train_index], y[test_index]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    knn<span style="color:#f92672">.</span>fit(X_train, y_train)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    y_pred <span style="color:#f92672">=</span> knn<span style="color:#f92672">.</span>predict(X_test)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    all_predictions<span style="color:#f92672">.</span>extend(y_pred) <span style="color:#75715e"># Store predictions</span>
+</span></span><span style="display:flex;"><span>    all_true_labels<span style="color:#f92672">.</span>extend(y_test) <span style="color:#75715e"># Store true labels</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    accuracy <span style="color:#f92672">=</span> accuracy_score(y_test, y_pred)
+</span></span><span style="display:flex;"><span>    accuracy_list<span style="color:#f92672">.</span>append(accuracy)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>conf_matrix <span style="color:#f92672">=</span> confusion_matrix(all_true_labels, all_predictions)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Confusion Matrix:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, conf_matrix)
+</span></span><span style="display:flex;"><span>ConfusionMatrixDisplay(confusion_matrix<span style="color:#f92672">=</span>conf_matrix)<span style="color:#f92672">.</span>plot()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Accuracies for each fold:&#34;</span>, accuracy_list)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Mean accuracy:&#34;</span>, np<span style="color:#f92672">.</span>mean(accuracy_list))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p>Esto da como resultado:</p>
+<img src="../../images/ExecKNN.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<p>De esta forma se puede verificar que mediante Python se puede llegar a una performance muy similar, comprobando que K-NN resulta ser un modelo que se ajusta bastante a este caso de uso y a estos datos en particular.</p>
 <h3 id="para-seguir-comparando">Para seguir comparando&hellip;</h3>
 <ul>
 <li>Se pueden añadir nuevos modelos a la comparación, como SVM o Random Forest</li>
@@ -348,6 +394,7 @@ En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar p
 <h4 id="bibliografía">Bibliografía</h4>
 <ul>
 <li>Dataset Sonar de RapidMiner</li>
+<li><a href="https://archive.ics.uci.edu/dataset/151/connectionist+bench+sonar+mines+vs+rocks">Dataset Sonar de UCI</a></li>
 </ul>
 
           </article>
@@ -373,6 +420,7 @@ En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar p
         <li><a href="#lda">LDA</a></li>
         <li><a href="#k-nn">K-NN</a></li>
         <li><a href="#análisis-de-resultados">Análisis de Resultados</a></li>
+        <li><a href="#modelo-en-python">Modelo en Python</a></li>
         <li><a href="#para-seguir-comparando">Para seguir comparando&hellip;</a></li>
       </ul>
     </li>

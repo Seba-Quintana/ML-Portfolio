@@ -92,6 +92,59 @@ Por último, K-NN es el modelo que mejor pudo predecir la variable objetivo. Est
 - K-NN no pierde exactitud según la distribución de los datos, lo que hace que su performance sea mejor que la de LDA
 - Como LDA se basa en promedios y K-NN en los nodos cercanos, K-NN se ve beneficiado con datasets chicos donde las clases similares se encuentran cerca, dado que LDA calcula el promedio de todos los datos. Esto también quiere decir que se ve mayormente afectado por outliers que K-NN, dado que con un valor pequeño de K, K-NN toma en cuenta una menor cantidad de outliers que LDA.
 
+### Modelo en Python
+
+Replicando el proceso realizado con K-NN en RapidMiner utilizando Python (utilizando el [dataset Sonar de UCI](https://archive.ics.uci.edu/dataset/151/connectionist+bench+sonar+mines+vs+rocks):
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split, KFold
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+
+# data = pd.read_csv("sonar.csv")
+X = data.iloc[:, :-1].values # Features
+y = data.iloc[:, -1].values # Target
+
+kf = KFold(n_splits=10, shuffle=True)
+
+knn = KNeighborsClassifier(n_neighbors=5)
+
+accuracy_list = []
+all_predictions = []
+all_true_labels = []
+
+for train_index, test_index in kf.split(X):
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
+    knn.fit(X_train, y_train)
+
+    y_pred = knn.predict(X_test)
+
+    all_predictions.extend(y_pred) # Store predictions
+    all_true_labels.extend(y_test) # Store true labels
+
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracy_list.append(accuracy)
+
+conf_matrix = confusion_matrix(all_true_labels, all_predictions)
+print("Confusion Matrix:\n", conf_matrix)
+ConfusionMatrixDisplay(confusion_matrix=conf_matrix).plot()
+
+print("Accuracies for each fold:", accuracy_list)
+print("Mean accuracy:", np.mean(accuracy_list))
+
+plt.show()
+```
+Esto da como resultado:
+
+<img src="../../images/ExecKNN.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+
+De esta forma se puede verificar que mediante Python se puede llegar a una performance muy similar, comprobando que K-NN resulta ser un modelo que se ajusta bastante a este caso de uso y a estos datos en particular.
+
 ### Para seguir comparando...
 
 - Se pueden añadir nuevos modelos a la comparación, como SVM o Random Forest
@@ -102,3 +155,4 @@ Por último, K-NN es el modelo que mejor pudo predecir la variable objetivo. Est
 #### Bibliografía
 
 - Dataset Sonar de RapidMiner
+- [Dataset Sonar de UCI](https://archive.ics.uci.edu/dataset/151/connectionist+bench+sonar+mines+vs+rocks)
