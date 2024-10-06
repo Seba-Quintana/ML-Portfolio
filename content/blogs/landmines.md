@@ -104,7 +104,7 @@ from sklearn.model_selection import train_test_split, KFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 
-# data = pd.read_csv("sonar.csv")
+data = pd.read_csv("sonar.csv")
 X = data.iloc[:, :-1].values # Features
 y = data.iloc[:, -1].values # Target
 

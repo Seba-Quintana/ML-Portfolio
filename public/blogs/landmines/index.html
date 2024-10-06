@@ -348,7 +348,7 @@ En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar p
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.neighbors <span style="color:#f92672">import</span> KNeighborsClassifier
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># data = pd.read_csv(&#34;sonar.csv&#34;)</span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;sonar.csv&#34;</span>)
 </span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>iloc[:, :<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>values <span style="color:#75715e"># Features</span>
 </span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>iloc[:, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>values <span style="color:#75715e"># Target</span>
 </span></span><span style="display:flex;"><span>
