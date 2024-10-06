@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ML Portfolio</title>
-    <link>https://seba-quintana.github.io/ML-Portfolio/</link>
+    <link>http://localhost:1313/ML-Portfolio/</link>
     <description>Recent content on ML Portfolio</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 02 Oct 2024 01:37:27 -0300</lastBuildDate>
-    <atom:link href="https://seba-quintana.github.io/ML-Portfolio/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/ML-Portfolio/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Recomendaciones de juegos</title>
-      <link>https://seba-quintana.github.io/ML-Portfolio/blogs/steam/</link>
+      <link>http://localhost:1313/ML-Portfolio/blogs/steam/</link>
       <pubDate>Wed, 02 Oct 2024 01:37:27 -0300</pubDate>
-      <guid>https://seba-quintana.github.io/ML-Portfolio/blogs/steam/</guid>
+      <guid>http://localhost:1313/ML-Portfolio/blogs/steam/</guid>
       <description>&lt;img src=&#34;https://sm.ign.com/ign_es/tag/s/steam/steam_rbez.jpg&#34; alt=&#34;drawing&#34; width=&#34;50%&#34; style=&#34;display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;&#34;/&gt;&#xA;&lt;h3 id=&#34;preparacion-de-datos&#34;&gt;Preparacion de datos&lt;/h3&gt;&#xA;&lt;p&gt;La idea principal de este post es analizar los inicios de la preparación de datos en datasets reales con grandes cantidades de información.&#xA;Para esto se eligió el dataset de &lt;em&gt;&lt;a href=&#34;https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam&#34;&gt;recomendaciones de juegos en Steam&lt;/a&gt;&lt;/em&gt; (plataforma de distribución digital de videojuegos), el cual cuenta con datos oficiales de la plataforma, y según la descripción del mismo esta compuesto por mas de 41 millones de recomendaciones de usuarios de Steam.&#xA;Este dataset contiene 3 CSVs, uno de juegos, otro de recomendaciones, y otro de usuarios, y tambien contiene un archivo json con metadata de los juegos.&lt;/p&gt;</description>
     </item>
     <item>
       <title>¿Es una mina?</title>
-      <link>https://seba-quintana.github.io/ML-Portfolio/blogs/landmines/</link>
+      <link>http://localhost:1313/ML-Portfolio/blogs/landmines/</link>
       <pubDate>Tue, 01 Oct 2024 02:43:45 -0300</pubDate>
-      <guid>https://seba-quintana.github.io/ML-Portfolio/blogs/landmines/</guid>
+      <guid>http://localhost:1313/ML-Portfolio/blogs/landmines/</guid>
       <description>&lt;img src=&#34;https://lieber.westpoint.edu/wp-content/uploads/2022/06/a-us-anti-personnel-mine-used-during-a-marine-field-exercise-3ee3a0-1024-resized.jpg&#34; alt=&#34;drawing&#34; width=&#34;50%&#34; style=&#34;display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;&#34;/&gt;&#xD;&#xA;&lt;p&gt;La idea de este post es intentar crear varios modelos de Machine Learning que permitan predecir si el resultado de un análisis de un sonar es una roca o una mina. Este modelo es inherentemente de clasificación, ya que la variable objetivo será el atributo que determine si es una mina o no (llamado &lt;code&gt;class&lt;/code&gt;), y por lo tanto se realizará un análisis de los distintos modelos de clasificación (bajo las mismas condiciones), para evaluar qué modelo se ajusta mejor a este caso en particular. Notar que no se realizará preparación de datos previa, justamente para identificar ventajas y desventajas de los distintos modelos (por ejemplo, algunos serán perjudicados por la distribución de los datos, mientras que otros son más resistentes a esto. O quizás la falta de normalización o el tipo de datos de las entradas afecte de manera negativa a algún modelo pero a otros no, etc.).&lt;/p&gt;</description>
     </item>
     <item>
       <title>Precios de laptops</title>
-      <link>https://seba-quintana.github.io/ML-Portfolio/blogs/laptops/</link>
+      <link>http://localhost:1313/ML-Portfolio/blogs/laptops/</link>
       <pubDate>Tue, 01 Oct 2024 02:43:45 -0300</pubDate>
-      <guid>https://seba-quintana.github.io/ML-Portfolio/blogs/laptops/</guid>
+      <guid>http://localhost:1313/ML-Portfolio/blogs/laptops/</guid>
       <description>&lt;img src=&#34;https://upload.wikimedia.org/wikipedia/commons/9/90/ThinkPad_X220.jpg&#34; alt=&#34;drawing&#34; width=&#34;50%&#34; style=&#34;display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;&#34;/&gt;&#xA;&lt;p&gt;El propósito de este post es realizar un proyecto que demuestre de comienzo a fin un proceso de Machine Learning, el cual permitirá realizar tareas de predicción sobre un campo en concreto. En este caso se buscará predecir el precio que tendrá una laptop, basándose en las distintas características de la misma.&lt;/p&gt;&#xA;&lt;h3 id=&#34;preparacion-de-datos&#34;&gt;Preparacion de datos&lt;/h3&gt;&#xA;&lt;p&gt;El primer paso en un proceso de Machine Learning siempre es conseguir los datos. Para esto se puede utilizar un repositorio como UCI o Kaggle para extraer los mismos, los cuales suelen estar en formato CSV (aunque no necesariamente). Para este caso en particular existen muchos datasets que pueden ser útiles, de los cuales se ha elegido el de &lt;em&gt;&lt;a href=&#34;https://www.kaggle.com/datasets/muhammetvarl/laptop-price&#34;&gt;laptop_prices&lt;/a&gt;&lt;/em&gt;. El mismo contiene un CSV con los siguientes campos:&lt;/p&gt;</description>
     </item>
   </channel>

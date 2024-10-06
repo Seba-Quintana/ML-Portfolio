@@ -96,7 +96,7 @@ Por último, K-NN es el modelo que mejor pudo predecir la variable objetivo. Est
 
 - Se pueden añadir nuevos modelos a la comparación, como SVM o Random Forest
 - Se pueden ajustar los parámetros de los modelos (en este caso todos los parámetros fueron los predeterminados)
-- Se puede realizar un procesamiento de datos previo, que dependerá de que modelo se utilice
+- Se puede realizar un procesamiento de datos previo, que dependerá de que modelo se utilice para aprovechar las ventajas de cada uno
 
 
 #### Bibliografía

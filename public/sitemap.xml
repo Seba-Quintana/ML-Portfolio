@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://seba-quintana.github.io/ML-Portfolio/blogs/</loc>
+    <loc>http://localhost:1313/ML-Portfolio/blogs/</loc>
     <lastmod>2024-10-02T01:37:27-03:00</lastmod>
   </url><url>
-    <loc>https://seba-quintana.github.io/ML-Portfolio/</loc>
+    <loc>http://localhost:1313/ML-Portfolio/</loc>
     <lastmod>2024-10-02T01:37:27-03:00</lastmod>
   </url><url>
-    <loc>https://seba-quintana.github.io/ML-Portfolio/blogs/steam/</loc>
+    <loc>http://localhost:1313/ML-Portfolio/blogs/steam/</loc>
     <lastmod>2024-10-02T01:37:27-03:00</lastmod>
   </url><url>
-    <loc>https://seba-quintana.github.io/ML-Portfolio/blogs/landmines/</loc>
+    <loc>http://localhost:1313/ML-Portfolio/blogs/landmines/</loc>
     <lastmod>2024-10-01T02:43:45-03:00</lastmod>
   </url><url>
-    <loc>https://seba-quintana.github.io/ML-Portfolio/blogs/laptops/</loc>
+    <loc>http://localhost:1313/ML-Portfolio/blogs/laptops/</loc>
     <lastmod>2024-10-01T02:43:45-03:00</lastmod>
   </url><url>
-    <loc>https://seba-quintana.github.io/ML-Portfolio/categories/</loc>
+    <loc>http://localhost:1313/ML-Portfolio/categories/</loc>
   </url><url>
-    <loc>https://seba-quintana.github.io/ML-Portfolio/tags/</loc>
+    <loc>http://localhost:1313/ML-Portfolio/tags/</loc>
   </url>
 </urlset>
