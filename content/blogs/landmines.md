@@ -6,11 +6,11 @@ draft = false
 
 <img src="https://lieber.westpoint.edu/wp-content/uploads/2022/06/a-us-anti-personnel-mine-used-during-a-marine-field-exercise-3ee3a0-1024-resized.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 
-La idea de este post es intentar crear un modelo de Machine Learning que permita predecir si el resultado de un sonar es una roca o una mina. Este modelo es inherentemente de clasificación, ya que la variable objetivo será el atributo que determine si es una mina o no (llamado `class`), y por lo tanto se realizará un análisis de los distintos modelos de clasificación (bajo las mismas condiciones), para evaluar qué modelo se ajusta mejor a este caso en particular.
+La idea de este post es intentar crear varios modelos de Machine Learning que permitan predecir si el resultado de un análisis de un sonar es una roca o una mina. Este modelo es inherentemente de clasificación, ya que la variable objetivo será el atributo que determine si es una mina o no (llamado `class`), y por lo tanto se realizará un análisis de los distintos modelos de clasificación (bajo las mismas condiciones), para evaluar qué modelo se ajusta mejor a este caso en particular. Notar que no se realizará preparación de datos previa, justamente para identificar ventajas y desventajas de los distintos modelos (por ejemplo, algunos serán perjudicados por la distribución de los datos, mientras que otros son más resistentes a esto. O quizás la falta de normalización o el tipo de datos de las entradas afecte de manera negativa a algún modelo pero a otros no, etc.).
 
 ### Análisis de datos
 
-Para poder ver si un elemento es una roca o una mina, se utiliza un sonar que emite distintas frecuencias. Según cómo vuelvan esas frecuencias, el sonar puede detectar el objeto. En este caso, el dataset viene con 60 frecuencias distintas, y con los resultados que las mismas tuvieron con un objeto en particular. Notar que dichas frecuencias son números reales.
+Para poder ver si un elemento es una roca o una mina, se utiliza un sonar que emite distintas frecuencias. Según cómo vuelvan esas frecuencias, el sonar puede detectar el objeto. En este caso, el dataset viene con 60 frecuencias distintas, y con los resultados que las mismas tuvieron frente a distintos objetos. Notar que dichas frecuencias son números reales.
 
 ### Proceso de RapidMiner
 
@@ -57,16 +57,46 @@ La regresión logística en términos simples consiste en utilizar una función 
 
 Esto probablemente se deba a que al contrario de los otros dos modelos, la regresión logística es capaz de operar con valores continuos como lo son los números reales, lo que conlleva a un mejor rendimiento en estos casos. Los otros dos modelos soportan números reales, pero podrían tener un mejor comportamiento si separaramos las distintas frecuencias en rangos, para generar una menor cantidad de clases y que les resulte más sencillo relacionar los datos.
 
-### Linear Discriminant Analysis
+### LDA
 
 Proceso utilizando Linear Discriminant Analysis:
 
-<img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+<img src="../../images/Logistic_Regression.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 
 Matriz de confusión:
 <img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
 
-Este caso supera todos los modelos anteriores, con un 77% de exactitud total, e incluso un 81% en el caso de ser una mina.
+Este caso supera todos los modelos anteriores, con un 77% de exactitud total, e incluso un 81% en el caso de ser una mina. LDA crea un nuevo eje que maximiza la separación entre las clases. En este contexto, lo que busca es determinar si un nuevo elemento se acerca más a la media de los elementos clasificados como rocas o a la media de los clasificados como minas, y en base a esto realiza la predicción.
+
+### K-NN
+
+Proceso utilizando K-NN:
+
+<img src="../../images/KNN.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+
+Matriz de confusión:
+<img src="../../images/KNN_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+
+Aquí se puede ver que este modelo ha tenido la mejor performance de todos los modelos hasta ahora, con un 81% de exactitud en total, y si el objetivo a analizar es una mina resulta tener un 87% de exactitud, lo cual es bastante alto, considerando que no se buscó optimizar el modelo ni preparar los datos previamente.
+
+### Análisis de Resultados
+
+Una de las posibles razones por las que los modelos K-NN y LDA funcionan tan bien en comparación a los otros modelos puede ser porque las dos clases se encuentran muy separadas:
+<img src="../../images/Logistic_Regression_Perf.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Otra posibilidad es que los datos se aproximan a una distribución normal, lo que mejora el funcionamiento de LDA:
+<img src="../../images/LDA_Distr.jpg" alt="drawing" width="50%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; width: 50%;"/>
+Por otro lado, Naive Bayes puede tener un comportamiento peor porque asume que los datos son condicionalmente independientes, lo que no necesariamente se cumple en este caso, mientras que la regresión logística y LDA son más resistentes a esto.
+En el caso de los árboles de desición, quizá esté tendiendo a sobreajustar por el tamaño del dataset o por el ruido, mientras que tanto K-NN como LDA y regresión logística son más resistentes a esto.
+
+Por último, K-NN es el modelo que mejor pudo predecir la variable objetivo. Esto se puede deber a distintas razones:
+- K-NN no pierde exactitud según la distribución de los datos
+- Como LDA se basa en promedios y K-NN en los nodos cercanos, K-NN se ve beneficiado con datasets chicos donde las clases similares se encuentren cerca, dado que LDA calcula el promedio de todos los datos. Esto también quiere decir que se ve mayormente afectado por outliers que K-NN, dado que con un valor pequeño de K, K-NN no toma en cuenta los outliers, mientras que LDA sí los puede llegar a tomar.
+
+### Para seguir comparando...
+
+- Se pueden añadir nuevos modelos a la comparación, como SVM o Random Forest
+- Se pueden ajustar los parámetros de los modelos (en este caso todos los parámetros fueron los predeterminados)
+- Se puede realizar un procesamiento de datos previo, que dependerá de que modelo se utilice
 
 
 #### Bibliografía
